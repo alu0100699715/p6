@@ -23,6 +23,7 @@
 st     = i:ID ASSIGN e:exp { return {type: '=', left: i, right: e}; }
        / IF e:cond THEN st:st ELSE sf:st { return {type:'IFELSE', condition: e, true_statement: st, else_statement: sf}; }
        / IF e:cond THEN s:st { return {type:'IF', condition: e, statement: s}; }
+       / WHILE e:cond DO s:st { return {type:'WHILE', condition: e, statement: s}; }
 cond   = c:factor op:COMPARISON? e:exp? { return {type: op, left: c, right: e}; }
 exp    = t:term   r:(ADD term)*   { return tree(t,r); }
 term   = f:factor r:(MUL factor)* { return tree(f,r); }
@@ -43,5 +44,7 @@ RIGHTPAR = _")"_
 IF       = _ "if" _
 THEN     = _ "then" _
 ELSE     = _ "else" _
+WHILE    = _ "while" _
+DO       = _ "do" _
 ID       = _ id:$[a-zA-Z_][a-zA-Z_0-9]* _ { return id; }
 NUMBER   = _ digits:$[0-9]+ _ { return parseInt(digits, 10); }
