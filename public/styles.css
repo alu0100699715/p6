@@ -1,9 +1,11 @@
 body {
-  font-family: Helvetica, Arial, sans-serif; }
+  font-family: Helvetica, Arial, sans-serif;
+  background-color: #ADD6FF; }
 
 h1 {
   color: #990033;
-  font: 32px/1 Helvetica, Arial, sans-serif; }
+  font: 32px/1 "Lucida Console", Monaco, monospace;
+  text-align: center; }
 
 header h1 {
   font-size: 40px;
@@ -80,4 +82,21 @@ nav a.current {
   background-color: #990033; }
 
 .centered {
+  text-align: center; }
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center; }
+
+#ficheros li {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center; }
+
+#examples {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
   text-align: center; }
