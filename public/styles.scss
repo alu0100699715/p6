@@ -3,14 +3,17 @@ $black: #444;
 $white: #fff;
 $blue: #002EB8;
 $main-font: Helvetica, Arial, sans-serif;
+$header-font: "Lucida Console", Monaco, monospace;
 
 body {
   font-family: $main-font;
+  background-color: #ADD6FF;
 }
 
 h1 {
   color: $red;
-  font: 32px/1 $main-font;
+  font: 32px/1 $header-font;
+  text-align: center;
 }
 
 header h1 {
@@ -115,5 +118,27 @@ nav a.current {
 }
 
 .centered {
+  text-align: center;
+}
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+#ficheros {
+  li {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+}
+
+#examples {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
   text-align: center;
 }
