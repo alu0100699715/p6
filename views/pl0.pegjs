@@ -22,14 +22,30 @@
 
 prog = c:block "."_ {return c}
 
-block = i:bloques_const* {return i;}
+block =_ i:bloques_const* j:bloques_var* z:bloques_proc* _ {return ([i].concat(j)).concat(z);}
 // "const" ident "=" number {"," ident "=" number} ";"]
 //         [ "var" ident {"," ident} ";"]
 //         { "procedure" ident ";" block ";" } statement .
 
+
+//constantes.
 bloques_const = i:constante j:otracostante* ";"_ {return [i].concat(j);}
 constante = _"const" i:ID "=" n:NUMBER {return {type: "const", left:i, right:n};}
 otracostante = "," _ i:ID "=" n:NUMBER {return {type: "const", left:i, right:n};}
+
+//variables.
+bloques_var = _ i:var j:otro_var* ";"_ {return [i].concat(j);}
+otro_var = "," j:ID {return {type:"var",id:j};}
+var = "var" i:ID {return {type:"var",id:i};}
+
+//procedimiento
+
+bloques_proc = i:proc j:proc_parametros ";" z:block ";"{return ([i].concat(j)).concat(z);}
+proc = _"procedure" j:ID {return {type:"procedure",id:j};}
+proc_parametros = LEFTPAR i:un_para* j:otro_para* RIGHTPAR {return[i].concat(j);}
+un_para = i:ID {return {type: "param", id:i};}
+otro_para = _"," j:ID {return {type: "param", id:j};}
+// var = "var" i:ID {return {type:"var",id:i};}
 
 
 st     = i:ID ASSIGN e:exp { return {type: '=', left: i, right: e}; }
@@ -52,7 +68,6 @@ COMPARISON = _ op:$([<>=!]"=")_ { return op; }
 ASSIGN   = _ op:'=' _  { return op; }
 ADD      = _ op:[+-] _ { return op; }
 MUL      = _ op:[*/] _ { return op; }
-//CONST	 = _ CONST_	
 LEFTPAR  = _"("_
 RIGHTPAR = _")"_
 IF       = _ "if" _
