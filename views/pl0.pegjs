@@ -43,7 +43,7 @@ var = "var" i:ID {return {type:"var",id:i};}
 
 //procedimiento
 
-bloques_proc = i:proc j:proc_parametros? ";" z:block ";"_{return ([i].concat(j)).concat(z);}
+bloques_proc = i:proc j:proc_parametros? BEGIN z:block END{return ([i].concat(j)).concat(z);}
 proc = _"procedure" j:ID {return {type:"procedure",id:j};}
 proc_parametros = LEFTPAR i:un_para j:otro_para* RIGHTPAR {return[i].concat(j);}
 un_para = i:ID {return {type: "param", id:i};}
