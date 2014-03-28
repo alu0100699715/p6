@@ -25,9 +25,6 @@ helpers do
   end
 end
 
-get '/test' do
-  erb :test
-end
 
 get '/grammar' do
   erb :grammar

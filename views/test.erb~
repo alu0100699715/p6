@@ -1,0 +1,24 @@
+	<link rel="stylesheet" href="test/mocha.css" />
+	
+	<div id="mocha"></div>
+    <textarea id="INPUT">defecto</textarea>
+	<pre id="OUTPUT"></pre>
+	<input id="PARSE" value=parse type=button class="mylink">
+
+    <script src="test/chai.js"></script>
+    <script src="test/mocha.js"></script>
+    <script src="tokens.js"></script>
+	<script src="parse.js"></script>
+    <script>mocha.setup('tdd')</script>
+    <script src="test/tests.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script>
+      function dump(fileName) {
+          $.get(fileName, function (data) {
+              $("#INPUT").val(data);
+          });
+      };
+	</script>
+	<script>
+        mocha.run();
+	</script>
