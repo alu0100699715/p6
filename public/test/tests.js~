@@ -3,13 +3,31 @@ var assert = chai.assert;
 suite('Analizador de PL0 Ampliado Usando PEG.js', function() {
     	test('Probando Statement', function() {
 	    prueba = pl0.parse("a = 1*9+4;.")
-	    assert.equal(prueba[0].right.type, "+")
-	    assert.equal(prueba[0].right.left.type, "*")
-	    assert.equal(prueba[0].type, "=")
+	    assert.equal(prueba[1].right.type, "+")
+	    assert.equal(prueba[1].right.left.type, "*")
+	    assert.equal(prueba[1].type, "=")
 	    
 	});
-
 	
+	test('Probando constantes', function() {
+	    prueba = pl0.parse("const a=2,b=1;a = 1*9+4;.")
+	    assert.equal(prueba[0][0][0].type, "const")
+	    assert.equal(prueba[0][0][0].left, "a")
+	    assert.equal(prueba[0][0][0].right, "2")
+	    assert.equal(prueba[0][0][1].type, "const")
+	    assert.equal(prueba[0][0][1].left, "b")
+	    assert.equal(prueba[0][0][1].right, "1")
+	});
+	
+	test('Probando variables', function() {
+	    prueba = pl0.parse("const a=2,b=1;var a,z;a = 1*9+4;.")
+	    assert.equal(prueba[1][0].type, "var")
+	    assert.equal(prueba[1][1].id, "a")
+	    assert.equal(prueba[1][1].type, "var")
+	    assert.equal(prueba[1][1].id, "z")
+	});
+	
+		
 // 	test('Probando tokens', function() {
 // 		var exp = "c = 5"
 // 		var res = '[{"type":"ID","value":"c","from":0,"to":1},{"type":"=","value":"=","from":2,"to":3},{"type":"NUM","value":5,"from":4,"to":5}]'

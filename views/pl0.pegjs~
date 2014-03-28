@@ -29,7 +29,7 @@ bloques_st = i:st j:otrast* ";"_ {return [i].concat(j);}
 otrast = ";" _ i:st {return i;}
 
 //constantes.
-bloques_const = i:constante j:otracostante* ";"_ {return [i].concat(j);}
+bloques_const = i:constante j:otracostante* ";"_ {return i.concat(j);}
 constante = _"const" i:ID "=" n:NUMBER {return {type: "const", left:i, right:n};}
 otracostante = "," _ i:ID "=" n:NUMBER {return {type: "const", left:i, right:n};}
 
