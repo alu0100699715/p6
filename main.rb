@@ -44,6 +44,9 @@ get '/:selected?' do |selected|
 end
 
 post '/save' do
+  if PL0Program.count >= 10
+    PL0Program.first.destroy
+  end
   pp params
   name = params[:fname]
   c  = PL0Program.first(:name => name)

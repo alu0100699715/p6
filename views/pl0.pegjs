@@ -22,11 +22,11 @@
 
 prog = c:block "."_ {return c}
 
-block =_ i:bloques_const* j:bloques_var* z:bloques_proc* _ c:st {return (([i].concat(j)).concat(z)).concat(c);}
-// "const" ident "=" number {"," ident "=" number} ";"]
-//         [ "var" ident {"," ident} ";"]
-//         { "procedure" ident ";" block ";" } statement .
+block =_ i:bloques_const* j:bloques_var* z:bloques_proc* _ c:bloques_st {return (([i].concat(j)).concat(z)).concat(c);}
 
+//st block
+bloques_st = i:st j:otrast* ";"_ {return [i].concat(j);}
+otrast = ";" _ i:st {return i;}
 
 //constantes.
 bloques_const = i:constante j:otracostante* ";"_ {return [i].concat(j);}
@@ -40,7 +40,7 @@ var = "var" i:ID {return {type:"var",id:i};}
 
 //procedimiento
 
-bloques_proc = i:proc j:proc_parametros? ";" z:block ";"_{return ([i].concat(j)).concat(z);}
+bloques_proc = i:proc j:proc_parametros? BEGIN z:block END{return ([i].concat(j)).concat(z);}
 proc = _"procedure" j:ID {return {type:"procedure",id:j};}
 proc_parametros = LEFTPAR i:un_para j:otro_para* RIGHTPAR {return[i].concat(j);}
 un_para = i:ID {return {type: "param", id:i};}
@@ -72,6 +72,8 @@ ASSIGN   = _ op:'=' _  { return op; }
 ADD      = _ op:[+-] _ { return op; }
 MUL      = _ op:[*/] _ { return op; }
 CALL     = _"call"_
+BEGIN	 = _"BEGIN"_
+END     = _"END"_
 LEFTPAR  = _"("_
 RIGHTPAR = _")"_
 IF       = _ "if" _
