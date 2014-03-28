@@ -21,10 +21,33 @@ Recuerde que un PEG $G$ es una cuaterna $G =(\Sigma,V,P,S)$.
 </ol>
 <ol>
   <li> $\Sigma = \{ +, -, *, /, (, ), 0 \ldots 9 \}$, 
-  <li> $V = \{ exp, term, factor, ADD, MUL, LEFTPAR, RIGHTPAR, ID, NUMBER, \_ \}$
+  <li> $V = \{prog, block, exp, term, factor, COMPARISON, CALL, IF, THEN, ELSE, WHILE, DO, ADD, MUL, LEFTPAR, RIGHTPAR, ID, NUMBER, \_ \}$
   <li> Reglas de Análisis:
   <ol>
 <pre>
+prog   = block .
+block  = bloques_const* bloques_var* bloques_proc* st
+
+bloques_const = constante otraconstante* ";"
+constante = "const" ID "=" NUMBER
+otraconstante = "," ID "=" NUMBER
+
+bloques_var = var otrovar* ";"
+var    = "var" ID
+otro_var = "," ID
+
+bloques_proc = proc proc_parametros? ";" block ";"
+proc   = "procedure" ID
+proc_parametros = LEFTPAR un_para otro_para* RIGHTPAR
+un_para = ID
+otro_para = "," ID
+
+st     = ID "=" exp
+       / CALL ID proc_parametros?
+       / IF cond THEN st ELSE st
+       / IF cond THEN st
+       / WHILE cond DO st
+cond   = factor COMPARISON? exp? 
 exp    = term   (ADD term)*
 term   = factor (MUL factor)*
 
@@ -34,10 +57,17 @@ factor = NUMBER
 
 _ = $[ \t\n\r]*
 
+COMPARISON = _ [&lt;&gt;=!]"=" | [&lt;&gt;] | factor _
 ADD      = _ [+-] _
 MUL      = _ [*/] _
+CALL     = _"call"_
 LEFTPAR  = _"("_
 RIGHTPAR = _")"_
+IF       = _ "if" _
+THEN     = _ "then" _
+ELSE     = _ "else" _
+WHILE    = _ "while" _
+DO       = _ "do" _
 ID       = _ [a-zA-Z_][a-zA-Z_0-9]* _
 NUMBER   = _ [0-9]+ _
 </pre>
