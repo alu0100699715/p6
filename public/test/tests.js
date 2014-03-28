@@ -27,6 +27,21 @@ suite('Analizador de PL0 Ampliado Usando PEG.js', function() {
 	    assert.equal(prueba[1][1].id, "z")
 	});
 	
+	test('Probando Procedure', function() {
+	    prueba = pl0.parse("procedure a(d,f) BEGIN a=12;END a = 1*9+4;.")
+	    assert.equal(prueba[1][0].type, "procedure")
+	    assert.equal(prueba[1][0].id, "a")
+	    
+	    assert.equal(prueba[1][1].type, "param")
+	    assert.equal(prueba[1][1].id, "d")
+	    
+	    assert.equal(prueba[1][2].type, "param")
+	    assert.equal(prueba[1][2].id, "f")
+	    
+	    assert.equal(prueba[1][3], undefined)
+	
+	    
+	});
 		
 // 	test('Probando tokens', function() {
 // 		var exp = "c = 5"
