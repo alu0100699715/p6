@@ -22,11 +22,14 @@
 
 prog = c:block "."_ {return c}
 
-block =_ i:bloques_const* j:bloques_var* z:bloques_proc* _ c:st {return (([i].concat(j)).concat(z)).concat(c);}
+block =_ i:bloques_const* j:bloques_var* z:bloques_proc* _ c:bloques_st {return (([i].concat(j)).concat(z)).concat(c);}
 // "const" ident "=" number {"," ident "=" number} ";"]
 //         [ "var" ident {"," ident} ";"]
 //         { "procedure" ident ";" block ";" } statement .
 
+//st block
+bloques_st = i:st j:otrast* ";"_ {return [i].concat(j);}
+otrast = ";" _ i:st {return i;}
 
 //constantes.
 bloques_const = i:constante j:otracostante* ";"_ {return [i].concat(j);}
@@ -72,6 +75,8 @@ ASSIGN   = _ op:'=' _  { return op; }
 ADD      = _ op:[+-] _ { return op; }
 MUL      = _ op:[*/] _ { return op; }
 CALL     = _"call"_
+BEGIN	 = _"BEGIN"_
+END     = _"END"_
 LEFTPAR  = _"("_
 RIGHTPAR = _")"_
 IF       = _ "if" _
