@@ -3,11 +3,12 @@ var assert = chai.assert;
 suite('Analizador de PL0 Ampliado Usando PEG.js', function() {
     	test('Probando Statement', function() {
 	    prueba = pl0.parse("a = 1*9+4;.")
-	    assert.equal(prueba[0].right.type, "+")
-	    assert.equal(prueba[0].right.left.type, "*")
-	    assert.equal(prueba[0].type, "=")
+	    assert.equal(prueba[1].right.type, "+")
+	    assert.equal(prueba[1].right.left.type, "*")
+	    assert.equal(prueba[1].type, "=")
 	    
 	});
+
 	
 // 	test('Probando tokens', function() {
 // 		var exp = "c = 5"
@@ -31,4 +32,4 @@ suite('Analizador de PL0 Ampliado Usando PEG.js', function() {
 // 		var res = "Syntax Error. Expected = found \'world\' near \'world\'"
 // 		chai.expect(function () { window.parse(exp) }).to.throw(res);
 // 	});
-// }); 
+}); 
