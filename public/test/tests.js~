@@ -38,31 +38,57 @@ suite('Analizador de PL0 Ampliado Usando PEG.js', function() {
 	    assert.equal(prueba[1][2].type, "param")
 	    assert.equal(prueba[1][2].id, "f")
 	    
-	    assert.equal(prueba[1][3], undefined)
-	
+	    assert.equal(prueba[1][3].type, undefined) // porque no hay constantes no varianbles dentro del procedure.
 	    
-	});
-		
-// 	test('Probando tokens', function() {
-// 		var exp = "c = 5"
-// 		var res = '[{"type":"ID","value":"c","from":0,"to":1},{"type":"=","value":"=","from":2,"to":3},{"type":"NUM","value":5,"from":4,"to":5}]'
-// 		var fun = JSON.stringify(exp.tokens())
-// 		assert.equal(fun, res)
-// 	});
-// 	test('Probando parse', function() {
-// 		var exp = "a = 2+1"
-// 		var res = '{"type":"=","left":{"type":"ID","value":"a"},"right":{"type":"+","left":{"type":"NUM","value":2},"right":{"type":"NUM","value":1}}}'
-// 		var fun = JSON.stringify(window.parse(exp))
-// 		assert.equal(fun, res)
-// 	});
-// 	test('Probando fallo en tokens', function() {
-// 		var exp = "#hola#"
-// // 		var res = "Syntax error near '#hola#'"
-// 		chai.expect(function () { exp.tokens() }).to.throw(res);
-// 	});
-// 	test('Probando fallo en parse', function() {
-// 		var exp = "hello world"
-// 		var res = "Syntax Error. Expected = found \'world\' near \'world\'"
-// 		chai.expect(function () { window.parse(exp) }).to.throw(res);
-// 	});
+	    assert.equal(prueba[1][4].type, "=")
+	    assert.equal(prueba[1][4].right, "12")
+	    assert.equal(prueba[1][4].left, "a")
+	    
+	    assert.equal(prueba[2].type,"=")
+	    assert.equal(prueba[2].left,"a")
+      });
+	
+      test('Probando WHILE y condition', function() {
+	    prueba = pl0.parse("while a < 9 do b=9;.")
+	    assert.equal(prueba[1].type, "WHILE")
+	    	    
+	    assert.equal(prueba[1].condition.type, "<")
+	    assert.equal(prueba[1].condition.left, "a")
+   	    assert.equal(prueba[1].condition.right, "9")
+	    
+	    assert.equal(prueba[1].statement.type, "=")
+	    assert.equal(prueba[1].statement.left, "b")
+	    assert.equal(prueba[1].statement.right, "9")
+     });
+      
+      test('Probando IF y condition', function() {
+	    prueba = pl0.parse("if a < 9 then b=9;.")
+	    assert.equal(prueba[1].type, "IF")
+	    	    
+	    assert.equal(prueba[1].condition.type, "<")
+	    assert.equal(prueba[1].condition.left, "a")
+   	    assert.equal(prueba[1].condition.right, "9")
+	    
+	    assert.equal(prueba[1].statement.type, "=")
+	    assert.equal(prueba[1].statement.left, "b")
+	    assert.equal(prueba[1].statement.right, "9")
+     });
+      
+     test('Probando IF ELSE y condition', function() {
+	    prueba = pl0.parse("if a < 9 then b=9 else b=5;.")
+	    assert.equal(prueba[1].type, "IFELSE")
+	    	    
+	    assert.equal(prueba[1].condition.type, "<")
+	    assert.equal(prueba[1].condition.left, "a")
+   	    assert.equal(prueba[1].condition.right, "9")
+	    
+	    assert.equal(prueba[1].true_statement.type, "=")
+	    assert.equal(prueba[1].true_statement.left, "b")
+	    assert.equal(prueba[1].true_statement.right, "9")
+	    
+	    assert.equal(prueba[1].else_statement.type, "=")
+	    assert.equal(prueba[1].else_statement.left, "b")
+	    assert.equal(prueba[1].else_statement.right, "5")
+     }); 
+      
 }); 
